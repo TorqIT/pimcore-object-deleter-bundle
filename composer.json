@@ -4,13 +4,13 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "TorqIT\\PimcoreObjectDeleterBundle\\": "src"
+            "TorqIT\\ObjectDeleterBundle\\": "src"
         }
     },
     "extra": {
         "pimcore": {
             "bundles": [
-                "TorqIT\\PimcoreObjectDeleterBundle\\ObjectDeleterBundle"
+                "TorqIT\\ObjectDeleterBundle\\ObjectDeleterBundle"
             ]
         }
     }

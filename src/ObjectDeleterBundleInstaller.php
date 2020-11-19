@@ -33,7 +33,7 @@ class ObjectDeleterBundleInstaller extends MigrationInstaller
                 FROM
                     objects
                 WHERE
-                    o_classId = classId
+                    o_classId = classId COLLATE utf8mb4_general_ci
                     AND
                     o_path LIKE CONCAT(rootPath, '%');
                     

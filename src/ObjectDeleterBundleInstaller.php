@@ -98,15 +98,19 @@ class ObjectDeleterBundleInstaller extends MigrationInstaller
                 
             -- delete all metadata
             
-            SELECT @obj_meta := CONCAT('DELETE ', table_name, ' FROM ', table_name, ' JOIN delete_obj ON ', table_name, '.o_id = delete_obj.o_id;') FROM information_schema.tables WHERE TABLE_SCHEMA = database() AND table_name LIKE 'object_metadata_%';
-            PREPARE obj_meta_stmt FROM @obj_meta;
-            EXECUTE obj_meta_stmt; 
-            DEALLOCATE PREPARE obj_meta_stmt;
+            IF EXISTS (SELECT * FROM information_schema.tables WHERE TABLE_SCHEMA = database() AND table_name LIKE 'object_metadata_%') THEN
+                SELECT @obj_meta := CONCAT('DELETE ', table_name, ' FROM ', table_name, ' JOIN delete_obj ON ', table_name, '.o_id = delete_obj.o_id;') FROM information_schema.tables WHERE TABLE_SCHEMA = database() AND table_name LIKE 'object_metadata_%';
+                PREPARE obj_meta_stmt FROM @obj_meta;
+                EXECUTE obj_meta_stmt; 
+                DEALLOCATE PREPARE obj_meta_stmt;
+            END IF;
             
-            SELECT @obj_meta_dest := CONCAT('DELETE ', table_name, ' FROM ', table_name, ' JOIN delete_obj ON ', table_name, '.dest_id = delete_obj.o_id;') FROM information_schema.tables WHERE TABLE_SCHEMA = database() AND table_name LIKE 'object_metadata_%';
-            PREPARE obj_meta_dest_stmt FROM @obj_meta_dest;
-            EXECUTE obj_meta_dest_stmt; 
-            DEALLOCATE PREPARE obj_meta_dest_stmt;
+            IF EXISTS (SELECT * FROM information_schema.tables WHERE TABLE_SCHEMA = database() AND table_name LIKE 'object_metadata_%') THEN
+                SELECT @obj_meta_dest := CONCAT('DELETE ', table_name, ' FROM ', table_name, ' JOIN delete_obj ON ', table_name, '.dest_id = delete_obj.o_id;') FROM information_schema.tables WHERE TABLE_SCHEMA = database() AND table_name LIKE 'object_metadata_%';
+                PREPARE obj_meta_dest_stmt FROM @obj_meta_dest;
+                EXECUTE obj_meta_dest_stmt; 
+                DEALLOCATE PREPARE obj_meta_dest_stmt;
+            END IF;
             
             -- delete object_query
             SET @obj_query = CONCAT('DELETE object_query_',classId,' FROM object_query_',classId,' JOIN delete_obj ON delete_obj.o_id = object_query_',classId,'.oo_id;');

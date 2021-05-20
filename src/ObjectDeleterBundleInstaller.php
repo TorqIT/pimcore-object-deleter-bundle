@@ -4,13 +4,14 @@ namespace TorqIT\ObjectDeleterBundle;
 
 use Doctrine\DBAL\Migrations\Version;
 use Doctrine\DBAL\Schema\Schema;
-use Pimcore\Extension\Bundle\Installer\MigrationInstaller;
+use Pimcore\Db;
+use Pimcore\Extension\Bundle\Installer\SettingsStoreAwareInstaller;
 
-class ObjectDeleterBundleInstaller extends MigrationInstaller
+class ObjectDeleterBundleInstaller extends SettingsStoreAwareInstaller
 {
-    public function migrateInstall(Schema $schema, Version $version)
+    public function install()
     {
-        $version->addSql('DROP PROCEDURE IF EXISTS `delete_objects`;');
+        Db::get()->query('DROP PROCEDURE IF EXISTS `delete_objects`;');
 
         $proc = <<<EOT
 
@@ -217,11 +218,19 @@ class ObjectDeleterBundleInstaller extends MigrationInstaller
         END
         
         EOT;
-        $version->addSql($proc);
+        Db::get()->query($proc);
+
+        parent::install();
+
+        return true;
     }
 
-    public function migrateUninstall(Schema $schema, Version $version)
+    public function uninstall(Schema $schema, Version $version)
     {
-        $version->addSql('DROP PROCEDURE IF EXISTS `delete_objects`;');
+        Db::get()->query('DROP PROCEDURE IF EXISTS `delete_objects`;');
+
+        parent::uninstall();
+
+        return true;
     }
 }

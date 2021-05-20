@@ -17,8 +17,7 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('object_deleter');
+        $treeBuilder = new TreeBuilder('object_deleter');
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for

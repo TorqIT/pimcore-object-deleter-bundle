@@ -1,7 +1,9 @@
 {
     "name": "torqit/pimcore-object-deleter-bundle",
     "type": "pimcore-bundle",
-    "require": {},
+    "require": {
+        "pimcore/pimcore": "^6.9 || ^10.0"
+    },
     "autoload": {
         "psr-4": {
             "TorqIT\\ObjectDeleterBundle\\": "src"

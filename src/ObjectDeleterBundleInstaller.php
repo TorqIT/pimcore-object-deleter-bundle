@@ -225,7 +225,7 @@ class ObjectDeleterBundleInstaller extends SettingsStoreAwareInstaller
         return true;
     }
 
-    public function uninstall(Schema $schema, Version $version)
+    public function uninstall()
     {
         Db::get()->query('DROP PROCEDURE IF EXISTS `delete_objects`;');
 

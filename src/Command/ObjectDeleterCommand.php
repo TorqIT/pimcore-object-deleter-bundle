@@ -39,6 +39,8 @@ class ObjectDeleterCommand extends AbstractCommand
         $deletedIds = $this->callDeleteProcedure($className, $root, $output);
 
         $this->deleteVersionFolders($deletedIds, $output);
+
+        return 0;
     }
 
     private function callDeleteProcedure($className, $root, OutputInterface $output){

@@ -31,7 +31,7 @@ class ObjectDeleterCommand extends AbstractCommand
 
         if (!$helper->ask($input, $output, $question)) {
             $output->writeln("Command cancelled");
-            return;
+            return 0;
         }
 
         $output->writeln("Continuing delete command");
@@ -43,13 +43,14 @@ class ObjectDeleterCommand extends AbstractCommand
         return 0;
     }
 
-    private function callDeleteProcedure($className, $root, OutputInterface $output){
+    private function callDeleteProcedure($className, $root, OutputInterface $output)
+    {
         $class = ClassDefinition::getByName($className);
 
-        if(!$class){
+        if (!$class) {
             $output->writeln("Class $className does not exist!");
         }
-        
+
         $classId = $class->getId();
 
         $db = \Pimcore\Db::get();
@@ -59,8 +60,8 @@ class ObjectDeleterCommand extends AbstractCommand
         $statement->bindParam(':root', $root, \PDO::PARAM_INPUT_OUTPUT, 32);
         $statement->execute();
 
-        $result =$statement->fetchAll();
-        
+        $result = $statement->fetchAll();
+
         $output->writeln("Deleting " .  count($result) . " $className records under path $root !");
 
         $cacheClearInput = new ArrayInput(array());
@@ -70,12 +71,13 @@ class ObjectDeleterCommand extends AbstractCommand
         return $result;
     }
 
-    private function deleteVersionFolders($deletedIds, OutputInterface $output){
+    private function deleteVersionFolders($deletedIds, OutputInterface $output)
+    {
         $output->writeln("Deleting verions");
 
-        foreach($deletedIds as $deletedIdArr){
+        foreach ($deletedIds as $deletedIdArr) {
             $deletedId = $deletedIdArr["o_id"];
-            $deletedIdGroup = 10000 * floor( $deletedId / 10000);
+            $deletedIdGroup = 10000 * floor($deletedId / 10000);
 
             $vFolder = PIMCORE_PRIVATE_VAR . "/versions/object/g$deletedIdGroup/$deletedId";
 

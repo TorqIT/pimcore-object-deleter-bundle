@@ -6,7 +6,7 @@ Delete objects in bulk by class name and root directory
 This bundle is easily installed via composer: `composer require torqit/pimcore-object-deleter-bundle`
 
 # Steps to setting up the object deleter:
-1. Make sure you register the `ObjectDeleterBundle` in your `AppKernel.php` located at `\src\pimcore-root\app\AppKernel.php`. Registering the bundle is as easy as adding a line in the registerBundlesToCollection function, like so: `$collection->addBundle(new \TorqIT\ObjectDeleterBundle\ObjectDeleterBundle);`
+1. Make sure you register the `ObjectDeleterBundle` in your `AppKernel.php`. Registering the bundle is as easy as adding a line in the registerBundlesToCollection function, like so: `$collection->addBundle(new \TorqIT\ObjectDeleterBundle\ObjectDeleterBundle);`
 2. Install the bundle, which will add the necessary procedure to your database. Run: `bin/console pimcore:bundle:install ObjectDeleterBundle`.
 3. Run the bundle, with the command: `./bin/console torq:object-deleter CLASSNAME_TO_DELETE:REQUIRED FOLDER_TO_DELETE_FROM:OPTIONAL`.
 

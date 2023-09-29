@@ -9,7 +9,7 @@ use Pimcore\Extension\Bundle\Installer\SettingsStoreAwareInstaller;
 
 class ObjectDeleterBundleInstaller extends SettingsStoreAwareInstaller
 {
-    public function install()
+    public function install(): void
     {
         Db::get()->query('DROP PROCEDURE IF EXISTS `delete_objects`;');
 
@@ -221,16 +221,12 @@ class ObjectDeleterBundleInstaller extends SettingsStoreAwareInstaller
         Db::get()->query($proc);
 
         parent::install();
-
-        return true;
     }
 
-    public function uninstall()
+    public function uninstall(): void
     {
         Db::get()->query('DROP PROCEDURE IF EXISTS `delete_objects`;');
 
         parent::uninstall();
-
-        return true;
     }
 }

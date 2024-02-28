@@ -56,11 +56,9 @@ class ObjectDeleterCommand extends AbstractCommand
         $db = \Pimcore\Db::get();
 
         $statement = $db->prepare("call delete_objects(:classId, :root)");
-        $statement->bindParam(':classId', $classId, \PDO::PARAM_INPUT_OUTPUT, 32);
-        $statement->bindParam(':root', $root, \PDO::PARAM_INPUT_OUTPUT, 32);
-        $statement->execute();
-
-        $result = $statement->fetchAll();
+        $statement->bindParam(':classId', $classId);
+        $statement->bindParam(':root', $root);
+        $result = $statement->executeQuery()->fetchAllAssociative();
 
         $output->writeln("Deleting " .  count($result) . " $className records under path $root !");
 
@@ -76,7 +74,7 @@ class ObjectDeleterCommand extends AbstractCommand
         $output->writeln("Deleting verions");
 
         foreach ($deletedIds as $deletedIdArr) {
-            $deletedId = $deletedIdArr["o_id"];
+            $deletedId = $deletedIdArr["id"];
             $deletedIdGroup = 10000 * floor($deletedId / 10000);
 
             $vFolder = PIMCORE_PRIVATE_VAR . "/versions/object/g$deletedIdGroup/$deletedId";
